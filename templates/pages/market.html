@@ -1,0 +1,49 @@
+{% extends 'base.html '%}
+{% block title %}
+Book Market
+{% endblock %}
+
+{% block content %}
+
+<!-- Start table -->
+<h2 class="text-center m-4">Book 📚 Market</h2>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover model-list"
+    style="background-color: #343A40; color: white;">
+
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Author</th>
+        <th scope="col">Categorys</th>
+        <th scope="col">Languages</th>
+        <th scope="col">Pages</th>
+        <th scope="col">Published</th>
+        <th scope="col">Link</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <th scope="row">{{ book.id }}</th>
+        <td>{{ book.name }}</td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.category }}</td>
+        <td>{{ book.language }}</td>
+        <td>{{ book.pages }}</td>
+        <td>{{ book.published }}</td>
+        <td>
+          <a class="btn btn-info" href="{{ book.link }}" target="_blank">
+            Download
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+<!-- End table -->
+{% endblock %}

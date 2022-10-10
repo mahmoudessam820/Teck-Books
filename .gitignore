@@ -1,0 +1,16 @@
+__pycache__/
+
+include/
+lib/
+Scripts/
+
+books.db
+config.py 
+pyvenv.cfg
+
+requirements.txt 
+
+TODO.md
+
+# pytest files
+.pytest_cache/

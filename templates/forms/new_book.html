@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+New Book
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container m-5">
+    <h2 class="text-center mb-5">New Book 📙</h2>
+    <form method="POST" class="form-register m-auto" style="color: #fff; width: 500px">
+
+        {{ form.hidden_tag() }}
+
+        {{ form.name.label() }}
+        {{ form.name(class="form-control") }}
+
+        {{ form.author.label() }}
+        {{ form.author(class="form-control") }}
+
+        {{ form.category.label() }}
+        {{ form.category(class="form-control") }}
+
+        {{ form.language.label() }}
+        {{ form.language(class="form-control") }}
+
+        {{ form.pages.label() }}
+        {{ form.pages(class="form-control") }}
+
+        {{ form.published.label() }}
+        {{ form.published(class="form-control") }}
+
+        {{ form.link.label() }}
+        {{ form.link(class="form-control") }}
+
+        {{ form.submit(class="btn btn-lg btn-block btn-primary mt-3") }}
+
+    </form>
+</div>
+
+{% endblock %}
