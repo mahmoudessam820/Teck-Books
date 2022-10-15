@@ -70,18 +70,43 @@ pip install -r requirements.txt
 3. **Run the development server:**
 ```
 In Bash
-export FLASK_APP=myapp
+export FLASK_APP=run.oy
 export FLASK_ENV=development # enables debug mode
 flask run --reload 
 
 In Windows
-set FLASK_APP=myapp
+set FLASK_APP=run.py
 set FLASK_ENV=development # enables debug mode
 flask run --reload 
 ```
 
 4. **Verify on the Browser**<br>
 Navigate to project homepage [http://127.0.0.1:5000/](http://127.0.0.1:5000/) or [http://localhost:5000](http://localhost:5000) 
+
+
+## Tech Stack
+
+**Client:** HTML, CSS, Javascript, Bootstrap
+
+**Server:** Python, Flask
+
+## 🛠 Skills
+HTML, CSS, Javascript, Bootstrap, Python, Flask
+
+
+## Author
+
+- [@mahmoudessam820](https://github.com/mahmoudessam820)
+
+## 🔗 Links
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mahmoud-el-kariouny-822719149/)
+[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/Mahmoud42275)
+
+
+## Feedback
+
+If you have any feedback, please reach out to us at esame4166@gmail.com
 
 
 ## Screenshots
