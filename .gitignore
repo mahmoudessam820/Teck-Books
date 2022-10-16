@@ -3,14 +3,11 @@ __pycache__/
 include/
 lib/
 Scripts/
+migrations/
+
 
 books.db
 config.py 
 pyvenv.cfg
 
-requirements.txt 
-
-TODO.md
-
-# pytest files
-.pytest_cache/
+requirements.txt

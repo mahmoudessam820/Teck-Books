@@ -38,7 +38,7 @@ def register() -> None:
             form.email.data = ''
             form.password1 = ''
 
-            return redirect(url_for('home_bp.home'))
+            return redirect(url_for('market_bp.market'))
 
         if form.errors != {}:
             for error_message in form.errors.values():
