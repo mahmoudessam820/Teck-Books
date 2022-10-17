@@ -19,14 +19,17 @@ def login() -> None:
         form: LoginForm = LoginForm()
 
         if form.validate_on_submit() and request.method == 'POST':
+
             get_user = User.query.filter_by(
                 username=form.username.data).first()
 
             if get_user is not None and bcrypt.check_password_hash(get_user.password_hash, form.password.data):
+
                 login_user(get_user)
                 flash(
                     f"You were successfully logged in! {get_user.username}", 'success')
                 return redirect(url_for('market_bp.market'))
+
             else:
                 flash(f'Invalid  username or password', 'danger')
 
