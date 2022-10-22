@@ -86,7 +86,9 @@
   <section class="error-message">
     <!-- Start errors messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
+
     {% if messages %}
+
     {% for category, message in messages %}
     <div class="alert alert-{{ category }} m-3 text-center">
       <button type="button" class="ml-2 mb-1 close" data-dismiss="alert" aria-label="close">
@@ -95,7 +97,9 @@
       {{ message }}
     </div>
     {% endfor %}
+
     {% endif %}
+
     {% endwith %}
     <!-- End errors messages -->
   </section>

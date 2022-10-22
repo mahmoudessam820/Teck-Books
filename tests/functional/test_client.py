@@ -4,8 +4,8 @@
 import unittest
 from urllib import response
 from flask import current_app
+from flask_login import current_user
 from run import create_app, db
-from models.model import User, Books
 
 #----------------------------------------------------------------#
 # Unittest Setup
@@ -24,10 +24,9 @@ class ClientTestCase(unittest.TestCase):
         db.create_all()
 
     def tearDown(self) -> None:
-        pass
-        # db.session.remove()
-        # db.drop_all()
-        # self.app_context.pop()
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
 
 
 #----------------------------------------------------------------#
@@ -97,9 +96,8 @@ class ClientTestCase(unittest.TestCase):
         THEN   check that a (200) status code is returned
         """
 
-        response = self.client.post('/newbook', follow_redirects=True)
+        response = self.client.post('/newbook', data=dict(
 
-        b = Books(
             name='Learning Web Design',
             author='Niederst Robbins',
             category='Web Development',
@@ -107,18 +105,13 @@ class ClientTestCase(unittest.TestCase):
             pages=422,
             published=2018,
             link='https://www.pdfdrive.com/learning-web-design-a-beginners-guide-to-html-css-javascript-and-web-graphics-d188549005.html'
-        )
 
-        db.session.add(b)
-        db.session.commit()
+        ), follow_redirects=True)
 
-        book_exist = Books.query.filter_by(
-            name='Learning Web Design').first()
-
-        self.assertIsNotNone(book_exist)
         self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Book Market', response.data)
 
-    def test_registeration_page(self):
+    def test_registeration_page(self) -> None:
         """
         GIVEN  a register page 
         WHEN   the '/register' page is requested [POST]
@@ -126,25 +119,32 @@ class ClientTestCase(unittest.TestCase):
         """
         response = self.client.post('/register',
                                     data=dict(
-                                        username='fat',
-                                        email='fat@example.com',
+                                        username='amr',
+                                        email='amr@example.com',
                                         password1='cat',
+                                        password2='cat',
                                     ),
                                     follow_redirects=True)
 
         self.assertEqual(response.status_code, 200)
-        self.assertIn(
-            b'You were create new account successfully welcome', response.data)
+        self.assertIn(b'Book Market', response.data)
 
-    def test_login_page(self):
+    def test_login_page(self) -> None:
         """
         GIVEN  a login page 
         WHEN   the '/login' page is requested [POST]
         THEN   check that a vailed user ingin and (200) status code is returned
         """
-        pass
+        response = self.client.post('/login',
+                                    data=dict(
+                                        username='amr',
+                                        password='cat',
+                                    ),
+                                    follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Book Market', response.data)
 
-    def test_logout_page(self):
+    def test_logout_page(self) -> None:
         """
         GIVEN  a logout page 
         WHEN   the '/logout' page is requested

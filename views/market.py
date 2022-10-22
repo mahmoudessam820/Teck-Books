@@ -13,6 +13,6 @@ market_bp: Blueprint = Blueprint(
 def market() -> None:
     try:
         books = Books.query.all()
-        return render_template('pages/market.html', books=books)
+        return render_template('pages/market.html', books=books), 200
     except TemplateNotFound:
         abort(404)
