@@ -70,7 +70,7 @@ pip install -r requirements.txt
 3. **Run the development server:**
 ```
 In Bash
-export FLASK_APP=run.oy
+export FLASK_APP=run.py
 export FLASK_ENV=development # enables debug mode
 flask run --reload 
 
