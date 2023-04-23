@@ -16,13 +16,15 @@ Home
             all of which are freely available.
         </p>
         <hr class="my-4">
-        <p>Download tech books for free</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="{{ url_for('register_bp.register') }}" role="button">
-                <i class="fa-solid fa-books"></i> Get Started
-            </a>
-        </p>
-    </div>
+        {% if not current_user.is_authenticated %}
+            <p>Download tech books for free</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" href="{{ url_for('register_bp.register') }}" role="button">
+                    <i class="fa-solid fa-books"></i> Get Started
+                </a>
+            </p>
+        {% endif %}
+    </div> 
 </div>
 
 {% endblock %}

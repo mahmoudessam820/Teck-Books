@@ -55,3 +55,7 @@ def create_app():
     app.register_blueprint(new_book_bp)
 
     return app
+
+
+# if __name__ == '__main__':
+#     app.run()
