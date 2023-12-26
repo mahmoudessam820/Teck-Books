@@ -3,7 +3,8 @@ from flask_login import UserMixin, current_user
 from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
-from app import db, login_manager
+
+from app import db, login_manager, admin
 
 # ? Models
 
@@ -55,8 +56,25 @@ class Books(db.Model):
     def __repr__(self) -> str:
         return f"<Book Details: {self.title}, author: {self.author}, category: {self.category}, language: {self.language}, pages: {self.pages}, year: {self.year}, link: {self.link}>"
 
+
+# Login Manager
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(int(user_id))
 
-# id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+# Admin Views
+class UserView(ModelView):
+    pass
+
+admin.add_view(UserView(Users, db.session))
+
+class BookView(ModelView):
+    pass
+
+admin.add_view(BookView(Books, db.session))
+
+
+
+
+

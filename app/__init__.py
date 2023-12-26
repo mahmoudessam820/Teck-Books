@@ -1,5 +1,6 @@
 from flask import Flask 
 from flask_sqlalchemy import SQLAlchemy 
+from flask_admin import Admin
 from flask_bcrypt import Bcrypt 
 from flask_login import (LoginManager, login_user, logout_user, login_required, current_user)
 
@@ -9,6 +10,7 @@ from config import config
 # Initialize flask app extensions
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+admin = Admin()
 
 # Initialize flask login
 login_manager = LoginManager()
@@ -44,6 +46,7 @@ def create_app(config_name: str) -> Flask:
     # Register extensions
     db.init_app(app)
     bcrypt.init_app(app)
+    admin.init_app(app)
     login_manager.init_app(app) 
 
     # Register blueprints
