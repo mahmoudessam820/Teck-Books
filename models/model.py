@@ -1,32 +1,31 @@
-from flask_sqlalchemy import SQLAlchemy
+import uuid
 from flask_login import UserMixin, current_user
 from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 
-
-db = SQLAlchemy()
+from app import db, login_manager
 
 # ? Models
 
 #! User Model
 
 
-class User(db.Model, UserMixin):
+class Users(db.Model, UserMixin):
 
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(length=50), nullable=False, unique=True)
-    email = db.Column(db.String(length=255), nullable=False, unique=True)
-    password_hash = db.Column(db.String(length=255), nullable=False)
+    username = db.Column(db.String(length=50), nullable=False, unique=False)
+    email = db.Column(db.String(length=150), nullable=False, unique=True)
+    password = db.Column(db.String(length=255), nullable=False)
 
-    def __init__(self, username: str, email: str, password_hash: str) -> None:
-        self.username = username
-        self.email = email
-        self.password_hash = password_hash
+    def __init__(self, **data: dict) -> None:
+        self.username = data.get('username')
+        self.email = data.get('email')
+        self.password = data.get('password')
 
     def __repr__(self) -> str:
-        return f'<username: {self.username}, email: {self.email}, Password: {self.password_hash}>'
+        return f'<username: {self.username}, email: {self.email}, password: {self.password}>'
 
 
 #! Books Model
@@ -36,43 +35,28 @@ class Books(db.Model):
     __tablename__ = 'books'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(length=255), nullable=False, unique=True)
+    title = db.Column(db.String(length=255), nullable=False, unique=True)
     author = db.Column(db.String(length=40), nullable=False, unique=False)
     category = db.Column(db.String(length=40), nullable=False)
     language = db.Column(db.String(length=40), nullable=False)
     pages = db.Column(db.Integer(), nullable=False)
-    published = db.Column(db.Integer(), nullable=False)
+    year = db.Column(db.Integer(), nullable=False)
     link = db.Column(db.String(), nullable=False)
 
-    def __init__(self, name: str, author: str, category: str, language: str, pages: int, published: int, link: str) -> None:
-        self.name = name
-        self.author = author
-        self.category = category
-        self.language = language
-        self.pages = pages
-        self.published = published
-        self.link = link
+    def __init__(self, **data: dict) -> None:
+        self.title = data.get('title')
+        self.author = data.get('author')
+        self.category = data.get('category')
+        self.language = data.get('language')
+        self.pages = data.get('pages')
+        self.year = data.get('year') 
+        self.link = data.get('link')
 
     def __repr__(self) -> str:
-        return f"<Book name: {self.name}, author: {self.author}, category: {self.category}, language: {self.language}, pages: {self.pages}, published: {self.published}, link: {self.link}>"
+        return f"<Book Details: {self.title}, author: {self.author}, category: {self.category}, language: {self.language}, pages: {self.pages}, year: {self.year}, link: {self.link}>"
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(int(user_id))
 
-#! Secure Admin Model
-
-class SecureAdminIndexView(AdminIndexView):
-    """
-        Override the default admin methods to prevent the user
-        from accessing the admin page if not authenticated.
-    """
-
-    # If the user is authenticated
-    def is_accessible(self) -> None:
-        if current_user.id == 1 and current_user.username == 'tito':
-            return current_user.is_authenticated
-
-
-class SecureModelView(ModelView):
-
-    def is_accessible(self) -> None:
-        if current_user.id == 1 and current_user.username == 'tito':
-            return current_user.is_authenticated
+# id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

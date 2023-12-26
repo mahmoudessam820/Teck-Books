@@ -6,8 +6,11 @@ Scripts/
 migrations/
 
 
-books.db
+data-dev.sqlite
 config.py 
 pyvenv.cfg
 
 requirements.txt
+users.txt
+
+schema.sql
