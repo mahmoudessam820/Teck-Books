@@ -1,4 +1,4 @@
-import uuid
+
 from flask_login import UserMixin, current_user
 from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
@@ -15,12 +15,13 @@ class Users(db.Model, UserMixin):
 
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True)
     username = db.Column(db.String(length=50), nullable=False, unique=False)
     email = db.Column(db.String(length=150), nullable=False, unique=True)
     password = db.Column(db.String(length=255), nullable=False)
 
     def __init__(self, **data: dict) -> None:
+        self.id = data.get('id')
         self.username = data.get('username')
         self.email = data.get('email')
         self.password = data.get('password')
@@ -35,7 +36,7 @@ class Books(db.Model):
 
     __tablename__ = 'books'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(), primary_key=True)
     title = db.Column(db.String(length=255), nullable=False, unique=True)
     author = db.Column(db.String(length=40), nullable=False, unique=False)
     category = db.Column(db.String(length=40), nullable=False)
@@ -45,6 +46,7 @@ class Books(db.Model):
     link = db.Column(db.String(), nullable=False)
 
     def __init__(self, **data: dict) -> None:
+        self.id = data.get('id')
         self.title = data.get('title')
         self.author = data.get('author')
         self.category = data.get('category')
@@ -60,7 +62,7 @@ class Books(db.Model):
 # Login Manager
 @login_manager.user_loader
 def load_user(user_id):
-    return Users.query.get(int(user_id))
+    return Users.query.get(str(user_id))
 
 
 # Admin Views

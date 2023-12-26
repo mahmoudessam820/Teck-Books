@@ -1,3 +1,4 @@
+import uuid
 from flask import render_template, request, redirect, url_for, flash
 
 from . import newbook
@@ -7,6 +8,7 @@ from models.model import Books
 
 
 @newbook.route('/newbook', methods=["POST", "GET"])
+@login_required
 def newbook():
 
     form = NewBookForm()
@@ -14,6 +16,7 @@ def newbook():
     if request.method == 'POST' and form.validate_on_submit():
 
         new_book = Books(
+            id=str(uuid.uuid4()),
             title=form.title.data,
             author=form.author.data,
             category=form.category.data,

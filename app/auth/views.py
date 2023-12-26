@@ -1,4 +1,5 @@
-from flask import (render_template, request, redirect, url_for, flash) 
+import uuid
+from flask import (render_template, request, redirect, url_for, flash, session) 
 
 from . import auth 
 from ..forms.signin import SigninForm
@@ -10,6 +11,7 @@ from models.model import Users
 
 @auth.route('/signin', methods=["POST", "GET"])
 def signin():
+
     form = SigninForm()
 
     if request.method == 'POST' and form.validate_on_submit():
@@ -17,6 +19,7 @@ def signin():
         password_hash = bcrypt.generate_password_hash(form.password1.data)
 
         new_user = Users(
+            id=str(uuid.uuid4()),
             username=form.username.data,
             email=form.email.data,
             password=password_hash
@@ -50,21 +53,24 @@ def login():
 
     form = LoginForm()
 
-    if request.method == 'POST' and form.validate_on_submit():
+    if request.method == 'POST':
 
-        user = Users.query.filter_by(email=form.email.data).first()
+        if form.validate_on_submit():
+            user = Users.query.filter_by(email=form.email.data).first_or_404()
 
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                flash(f"You are now logged in as {user.username}", 'success')
 
-            login_user(user)
-            flash(f"You are now logged in as {user.username}", 'success')
+                form.email.data = ''
+                form.password.data = ''
 
-            form.email.data = ''
-            form.password.data = ''
-
-            return redirect(url_for('market.market'))
+                return redirect(url_for('market.market'))
+            else:
+                flash('Login Unsuccessful. Please check email and password', 'danger')
         else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
+            flash('Form validation failed', 'danger')
+
     return render_template('auth/login.html', form=form)
 
 

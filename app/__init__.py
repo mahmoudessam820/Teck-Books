@@ -10,7 +10,7 @@ from config import config
 # Initialize flask app extensions
 db = SQLAlchemy()
 bcrypt = Bcrypt()
-admin = Admin()
+admin = Admin(template_mode='bootstrap4')
 
 # Initialize flask login
 login_manager = LoginManager()
