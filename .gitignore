@@ -1,4 +1,5 @@
 __pycache__/
+.vscode
 
 include/
 lib/
@@ -9,6 +10,7 @@ migrations/
 data-dev.sqlite
 config.py 
 pyvenv.cfg
+gpt.py
 
 requirements.txt
 users.txt
