@@ -1,4 +1,5 @@
 import uuid
+from flask import Response, redirect, url_for
 from flask_login import UserMixin, current_user
 from flask_admin import AdminIndexView
 from flask_admin.contrib.sqla import ModelView
@@ -107,16 +108,37 @@ class Premissions:
     pass
 
 
-# Register admin models view
-class UserView(ModelView):
-    pass
-
-admin.add_view(UserView(Users, db.session))
-
-class BookView(ModelView):
-    pass
-
-admin.add_view(BookView(Books, db.session))
-
 
 # Secure admin view
+
+class SecureAdminIndexView(AdminIndexView):
+    """
+        Override the default admin methods to prevent the user
+        from accessing the admin page if not authenticated.
+    """
+
+    def is_accessible(self) -> None:
+        if current_user.is_authenticated and current_user.is_admin:
+            return current_user.is_authenticated
+
+
+class SecureModelView(ModelView):
+
+    def is_accessible(self) -> None:
+        if current_user.is_admin:
+            return current_user.is_authenticated and current_user.is_admin
+
+    def inaccessible_callback(self, name, **kwargs) -> Response:
+        # redirect to home page if user doesn't have access
+        return redirect(url_for('main.home'))
+
+# Register admin models view
+# class UserView(ModelView):
+#     pass
+
+# admin.add_view(UserView(Users, db.session))
+
+# class BookView(ModelView):
+#     pass
+
+# admin.add_view(BookView(Books, db.session))

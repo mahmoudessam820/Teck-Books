@@ -10,6 +10,9 @@ from models.model import Books
 @newbook.route('/newbook', methods=["POST", "GET"])
 @login_required
 def newbook():
+    if not current_user.is_admin:
+        flash("You do not have permission to access this page.", 'error')
+        return redirect(url_for('market.market'))
 
     form = NewBookForm()
 

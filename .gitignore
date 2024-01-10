@@ -10,7 +10,7 @@ migrations/
 data-dev.sqlite
 config.py 
 pyvenv.cfg
-gpt.py
+
 
 
 users.txt

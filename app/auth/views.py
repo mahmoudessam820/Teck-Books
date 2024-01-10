@@ -13,7 +13,7 @@ from sqlite3 import IntegrityError
 from . import auth 
 from ..forms.signin import SigninForm
 from ..forms.login import LoginForm
-from app import db, bcrypt, login_user, logout_user
+from app import db, bcrypt, login_user, logout_user, current_user, login_required
 from models.model import Users
 
 
@@ -107,3 +107,4 @@ def logout() -> Response:
     logout_user()
     flash('You were successfully logout!', 'info')
     return redirect(url_for('main.home'))
+
