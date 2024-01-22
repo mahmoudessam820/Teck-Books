@@ -4,7 +4,7 @@ from app import create_app, db
 from models.model import Users, Books 
 
 
-app = create_app(os.getenv('APP_CONFIG') or 'testing')
+app = create_app(os.getenv('APP_CONFIG') or 'default')
 migrate = Migrate(app, db)
 
 
