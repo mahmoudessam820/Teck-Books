@@ -5,14 +5,14 @@ include/
 lib/
 Scripts/
 migrations/
+.pytest_cache/
 
 
 data-dev.sqlite
+data-test.sqlite
 config.py 
 pyvenv.cfg
 
 
-
 users.txt
-
 schema.sql
